@@ -1,4 +1,21 @@
-html,
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+@layer base{
+    
+  
+}
+
+@layer components{
+  .title-text{
+    @apply text-red-500
+  }
+}
+
+/* html,
 body {
   padding: 0;
   margin: 0;
@@ -13,4 +30,4 @@ a {
 
 * {
   box-sizing: border-box;
-}
+} */
