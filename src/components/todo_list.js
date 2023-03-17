@@ -1,9 +1,13 @@
-import Todo from "./todo";
+import Todo from "./cards/todo_card";
 
 
-const Todos = ({ todos, loading }) => {
+const TodoList = ({ todos, loading }) => {
     if (loading) {
         return <h2>Loading...</h2>;
+    }
+
+    if (!todos) {
+        return <h2>No data</h2>
     }
 
     return (
@@ -19,4 +23,4 @@ const Todos = ({ todos, loading }) => {
     )
 }
 
-export default Todos
+export default TodoList
