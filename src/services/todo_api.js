@@ -23,11 +23,6 @@ export const todoApi = createApi({
                 params: { ...arg },
                 method: 'GET',
             }),
-            // query: ({ _start = 0, _limit = 10 }) => ({
-            //     url: `todos?_start=${_start}&_limit=${_limit}`,
-            //     params: { _start, _limit },
-            //     method: 'GET',
-            // }),
         }),
         createTodo: build.mutation({
             query: (request) => ({
@@ -45,8 +40,6 @@ export const {
     useGetCreateTodoQuery,
     util: { getRunningQueriesThunk },
 } = todoApi;
-
-// export const { useGetTodoListQuery } = todoApi;
 
 // export endpoints for use in SSR
 export const { getTodoById, getTodoList, createTodo } = todoApi.endpoints;

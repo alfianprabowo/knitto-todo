@@ -2,12 +2,12 @@ import AddButton from "./buttons/add_button";
 import Pagination from "./pagination";
 import { useState, useEffect } from "react";
 import TodoList from "./todo_list";
+import { useGetTodoListQuery } from "../services/todo_api"
 
 export default function Content({ dataTodo }) {
     const [todos, setTodos] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [start, setStart] = useState(0);
-    const [crot, setCrot] = useState(0);
     const [limit, setLimit] = useState(10);
     const todoLength = dataTodo.length;
 
@@ -21,7 +21,6 @@ export default function Content({ dataTodo }) {
         if (currentPage < dataTodo.length / limit) {
             setCurrentPage(currentPage + 1);
             setStart(start + limit)
-            setCrot(crot + limit)
         }
     }
 
@@ -29,8 +28,35 @@ export default function Content({ dataTodo }) {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
             setStart(start - limit);
-            setCrot(crot - limit)
         }
+    }
+    const queryParams = {
+        _start: start,
+        _limit: limit,
+    }
+
+    const { data, error, isLoading } = useGetTodoListQuery(queryParams);
+    let content = [];
+    if (isLoading) {
+        content = <h2>Loading...</h2>;
+    }
+
+    if (!data) {
+        content = <h2>No data</h2>
+    }
+
+    if (error) {
+        content = <div >
+            {" "}
+            Something went wrong, Please retry again{" "}
+        </div>
+
+    }
+
+    if (data) {
+        content =
+            <TodoList todos={data} />
+
     }
 
     return (
@@ -42,7 +68,7 @@ export default function Content({ dataTodo }) {
                     <AddButton text={'Add Todo'} />
                 </div>
 
-                <TodoList start={start} limit={limit} />
+                {content}
 
                 <div>
                     <Pagination
@@ -55,6 +81,7 @@ export default function Content({ dataTodo }) {
             </div>
         </div>
     )
+
 
 }
 
