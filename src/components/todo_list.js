@@ -1,4 +1,4 @@
-import Todo from "./cards/todo_card";
+import TodoCard from "./cards/todo_card";
 
 
 const TodoList = ({ todos, loading }) => {
@@ -15,7 +15,7 @@ const TodoList = ({ todos, loading }) => {
             <ul>
                 {todos.map((post) => (
                     <li key={post.id}>
-                        <Todo title={post.title} completed={post.completed} />
+                        <TodoCard title={post.title} completed={post.completed} />
                     </li>
                 ))}
             </ul>

@@ -1,8 +1,8 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from "next-redux-wrapper";
 
 export const todoApi = createApi({
-    reducerPath: 'todoApi',
+    // reducerPath: 'todoApi',
     baseQuery: fetchBaseQuery({
         baseUrl: "https://jsonplaceholder.typicode.com/",
     }),
@@ -11,13 +11,23 @@ export const todoApi = createApi({
             return action.payload[reducerPath]
         }
     },
+
     tagTypes: [],
     endpoints: (build) => ({
         getTodoById: build.query({
             query: (id) => `todos/${id}`,
         }),
         getTodoList: build.query({
-            query: (start) => `todos?_start=${start}&_limit=10`
+            query: (arg) => ({
+                url: `todos?_start=${arg._start}&_limit=${arg._limit}`,
+                params: { ...arg },
+                method: 'GET',
+            }),
+            // query: ({ _start = 0, _limit = 10 }) => ({
+            //     url: `todos?_start=${_start}&_limit=${_limit}`,
+            //     params: { _start, _limit },
+            //     method: 'GET',
+            // }),
         }),
         createTodo: build.mutation({
             query: (request) => ({
@@ -26,21 +36,17 @@ export const todoApi = createApi({
                 body: request,
             }),
         }),
-        photos: build.query({
-            query: () => "/photos",
-        }),
     }),
 });
 // Export hooks for usage in functional components
 export const {
-    useGetTodoById,
+    useGetTodoByIdQuery,
     useGetTodoListQuery,
-    usePostCreateTodo,
+    useGetCreateTodoQuery,
     util: { getRunningQueriesThunk },
 } = todoApi;
 
-export const { usePhotosQuery } = todoApi;
-// export const { useTodoListQuery } = todoApi;
+// export const { useGetTodoListQuery } = todoApi;
 
 // export endpoints for use in SSR
 export const { getTodoById, getTodoList, createTodo } = todoApi.endpoints;

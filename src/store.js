@@ -6,7 +6,7 @@ import { todoApi } from './services/todo_api'
 // import { setupListeners } from '@rtk-incubator/rtk-query'
 
 
-export const store = configureStore({
+export const makeStore = configureStore({
     reducer: {
         // Add the generated reducer as a specific top-level slice
         [todoApi.reducerPath]: todoApi.reducer,
@@ -22,7 +22,7 @@ export const store = configureStore({
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
 // see `setupListeners` docs - takes an optional callback as the 2nd arg for customization
-setupListeners(store.dispatch)
+setupListeners(makeStore.dispatch)
 // export type AppStore = ReturnType<typeof store>;
 
 // export const wrapper = createWrapper < AppStore > (makeStore, { debug: true });
